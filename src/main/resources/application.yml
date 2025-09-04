@@ -9,5 +9,7 @@ spring:
   jpa:
     generate-ddl: false
     show-sql: true
+    properties:
+      dialect: org.hibernate.dialect.MySQLDialect
 
 
