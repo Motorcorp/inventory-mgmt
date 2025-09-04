@@ -12,7 +12,11 @@ import lombok.*;
 @AllArgsConstructor
 public class Item {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+
+    @Column(name = "name")
     private String itemName;
     private String description;
     private double price;
