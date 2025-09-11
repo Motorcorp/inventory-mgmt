@@ -19,15 +19,29 @@ public class ItemService {
     @Transactional(readOnly = true)
     public Item getItemById(@NonNull final String id){
 
-        return mapItem(itemRepository.findById(id)
+        return mapToItemDomain(itemRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(UrlConstants.ITEM_NOT_FOUND,"item: "+id+ " not found")));
-
-
 
     }
 
-    private final Item mapItem(@NonNull final com.motorcorp.inventorymgmt.entities.Item item){
+    @Transactional
+    public String addItem(@NonNull Item item){
+
+        return itemRepository.save(mapToItemEntity(item)).getId();
+    }
+
+    private final Item mapToItemDomain(@NonNull final com.motorcorp.inventorymgmt.entities.Item item){
         return Item.builder()
+                .id(item.getId())
+                .itemName(item.getItemName())
+                .description(item.getDescription())
+                .price(item.getPrice())
+                .status(item.getStatus())
+                .build();
+    }
+
+    private com.motorcorp.inventorymgmt.entities.Item mapToItemEntity(@NonNull final Item item){
+        return com.motorcorp.inventorymgmt.entities.Item.builder()
                 .id(item.getId())
                 .itemName(item.getItemName())
                 .description(item.getDescription())
